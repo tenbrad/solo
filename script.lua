@@ -1,3 +1,5 @@
+testing_mode = true
+
 whiteCounter_GUID = '407499'
 whiteZone_GUID = '07bdc8'
 greenCounter_GUID = '2570cb'
@@ -52,6 +54,12 @@ cardDeck_GUID = '226b4e'
 -- allSpades = {card7S_GUID, card8S_GUID, card9S_GUID, card10S_GUID, cardJS_GUID, cardQS_GUID, cardKS_GUID, cardAS_GUID}
 -- allClubs = {card7C_GUID, card8C_GUID, card9C_GUID, card10C_GUID, cardJC_GUID, cardQC_GUID, cardKC_GUID, cardAC_GUID}
 -- deckArray = {allDiamonds, allHearts, allSpades, allClubs}
+
+function testing(str)
+    if testing_mode then
+        broadcastToAll(str)
+    end
+end
 
 dealingScheme = {3, 2, 3}
 clockwiseOrder = {
@@ -219,7 +227,7 @@ function gatherAndDealEvent(player)
     if dealingPlayer ~= nil then
         printToColor(dealingPlayer.steam_name .. " is already dealing!", player.color, stringColorToRGB(player.color))
         return
-    elseif #seatedPlayers < 4 then
+    elseif #seatedPlayers < 4 and not testing_mode then
         broadcastToAll("Not enough players, need at least 4 to play.", player.color, stringColorToRGB(player.color))
     else
         broadcastToAll(player.steam_name .. " is dealing.", stringColorToRGB(player.color))
@@ -258,27 +266,34 @@ function gatherAndDeal()
     colorsBid = {}
     dealOrder = {}
     moveDealerToken(dealingPlayer.color)
-    for index, obj in pairs(tableZone.getObjects()) do
-        if (obj.tag == "Deck" or obj.tag == "Card") then
-            obj.setRotation({0,math.random(0,359),0})
-            obj.setPosition({math.random(-18,18),3,math.random(-13,13)})
-            wait(0.05)
-        end
-    end
+
     wait(0.25)
-    looseCards = sweepCards(tableZone)
-    flipCards(looseCards)
-    wait(0.25)
-    local deck2 = group(looseCards)
-    deck = nil
-    while deck == nil do
-      deck = getDeck(tableZone)
+    deck =group(tableZone.getObjects())
+    testing("cards grouped")
+    --deck = nil
+    deck = getDeck(tableZone)
+    if deck == nil then
+      broadcastToAll("An error occurred. Deal again.")
+      dealingPlayer = nil
+      return 1
     end
-    shuffle(deck)
+    testing("deck found")
+    deck.flip()
+    testing("cards flipped")
+    deck.shuffle()
+    deck.shuffle()
+    deck.shuffle()
+    deck.shuffle()
+    --shuffle(deck)
+    testing("deck shuffled")
     dealOrder = determineDealOrder(dealingPlayer.color)
+    testing(#dealOrder)
+    testing("order determined")
+    testing(#dealingScheme)
     for i=1,#dealingScheme do
         for v=1,#dealOrder do
             numCards = dealingScheme[i]
+            testing("dealing " .. numCards .. " to " ..dealOrder[v])
             deck.deal(numCards, dealOrder[v])
             wait(0.15)
         end
@@ -290,7 +305,7 @@ end
 function determineDealOrder()
     for i=1,#clockwiseOrder[dealingPlayer.color] do
         if #dealOrder == 4 then break end
-        if Player[clockwiseOrder[dealingPlayer.color][i]].seated then
+        if testing_mode or Player[clockwiseOrder[dealingPlayer.color][i]].seated then
             dealOrder[#dealOrder+1]=clockwiseOrder[dealingPlayer.color][i]
             wait(0.15)
         end
@@ -300,7 +315,7 @@ end
 
 function getDeck(zone)
     for index, obj in pairs(zone.getObjects()) do
-        if (obj.tag == "Deck" or obj.tag == "Card")  then
+        if (obj.tag == "Deck" )  then
             return obj
         end
     end
@@ -314,6 +329,8 @@ function sweepCards(zone)
           looseCards[#looseCards+1] = obj
       end
   end
+  wait(1)
+  testing("Sweeping cards complete")
   return looseCards
 end
 
