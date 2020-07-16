@@ -394,458 +394,460 @@ function takeTrick()
     return 1
 end
 
--- function makeBidHotkeyEvent(playerColor)
---     makeBidEvent(playerObjectFromColor(playerColor))
--- end
--- function makeBidEvent(player)
---     if suitsUIVisible then return end
---     if callsUIVisible then return end
---     if partnerUIVisible then return end
---     if biddingPlayerColor ~= nil then return end
---     if trickNumber == 0 then
---         broadcastToColor("Cannot pass or bid before dealing.", player.color, stringColorToRGB(player.color))
---         biddingPlayerColor = nil
---         return
---     elseif trickNumber > 8 then
---         broadcastToColor("There have already been 8 tricks this hand.", biddingPlayerColor, stringColorToRGB(player.color))
---         biddingPlayerColor = nil
---         return
---     else
---         -- checkValid(player)
---         -- for v=1,1 do
---         --     pass=bidNames[v]
---         -- end
---         -- if currentBidValue == pass then
---             -- checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
---         -- else
---         -- if valid then
---             -- callsUIShow(biddingPlayerColor)
---             -- callsUISetAttribute("visibility", biddingPlayerColor)
---         -- end
---             -- checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
---         -- end
---         -- if bidIsValid == true then
---         --     callsUIShow(biddingPlayerColor)
---         --     callsUISetAttribute("visibility", biddingPlayerColor)
---         -- end
+function makeBidHotkeyEvent(playerColor)
+    makeBidEvent(playerObjectFromColor(playerColor))
+end
+
+function makeBidEvent(player)
+    if suitsUIVisible then return end
+    if callsUIVisible then return end
+    if partnerUIVisible then return end
+    if biddingPlayerColor ~= nil then return end
+    if trickNumber == 0 then
+        broadcastToColor("Cannot pass or bid before dealing.", player.color, stringColorToRGB(player.color))
+        biddingPlayerColor = nil
+        return
+    elseif trickNumber > 8 then
+        broadcastToColor("There have already been 8 tricks this hand.", biddingPlayerColor, stringColorToRGB(player.color))
+        biddingPlayerColor = nil
+        return
+    else
+        -- checkValid(player)
+        -- for v=1,1 do
+         --     pass=bidNames[v]
+        -- end
+        -- if currentBidValue == pass then
+            -- checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+        -- else
+        -- if valid then
+             -- callsUIShow(biddingPlayerColor)
+             -- callsUISetAttribute("visibility", biddingPlayerColor)
+        -- end
+             -- checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+        -- end
+        -- if bidIsValid == true then
+        --     callsUIShow(biddingPlayerColor)
+        --     callsUISetAttribute("visibility", biddingPlayerColor)
+        -- end
+        --     return
+        -- end
+        -- if currentBidValue ~= nil then
+        --     currentBidValue = currentBidValue
+            -- checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+        -- else
+            -- getBid(checkCalls(currentBidValue))
+            -- checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+        -- end
 --
---
---
---         --     return
---         -- end
---         -- if currentBidValue ~= nil then
---         --     currentBidValue = currentBidValue
---             -- checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
---         -- else
---
---             -- getBid(checkCalls(currentBidValue))
---             -- checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
---         -- end
---
---
---     end
---     -- biddingPlayerColor = nil
---     -- biddingPlayerName = nil
---     -- currentBidValue = nil
---     -- callsUIHide()
+    end
+    -- biddingPlayerColor = nil
+    -- biddingPlayerName = nil
+    -- currentBidValue = nil
+    -- callsUIHide()
+end
+function checkValid(player)
+    if #colorsBid == 0 then
+        -- broadcastToAll(biddingPlayerName .. " calls " .. currentBidValue .. ".", stringColorToRGB(biddingPlayerColor))
+        -- colorsBid[#colorsBid+1]=biddingPlayerColor
+        -- callsMade[#callsMade+1]=currentBidValue
+        -- biddingPlayerColor = nil
+        -- biddingPlayerName = nil
+        -- currentBidValue = nil
+        -- callsUIHide()
+        return true
+    else
+        -- determine if player has already bid
+        found = false
+        for i=1,#colorsBid do
+            if biddingPlayerColor == colorsBid[i] then
+                broadcastToColor(biddingPlayerName .. ", you have already recorded a bid.", biddingPlayerColor, stringColorToRGB(biddingPlayerColor))
+                 -- biddingPlayerColor = nil
+                 -- biddingPlayerName = nil
+                 -- currentBidValue = nil
+                 -- callsUIHide()
+                found = true
+                return false
+            end
+        end
+        -- if found ~= true then
+            -- player has not bid
+            -- if bid is a pass, add it to the bids
+            -- if currentBidValue == pass then
+            --     broadcastToAll(biddingPlayerName .. " calls " .. currentBidValue .. ".", stringColorToRGB(biddingPlayerColor))
+            --     colorsBid[#colorsBid+1]=biddingPlayerColor
+            --     callsMade[#callsMade+1]=currentBidValue
+            --     biddingPlayerColor = nil
+            --     biddingPlayerName = nil
+            --     currentBidValue = nil
+            --     callsUIHide()
+            --     return
+            -- end
+            -- otherwise, check if the bid is higher than all other bids
+        --     bidValue = bidIndex(currentBidValue)
+        --     for i=1,#callsMade do
+        --         bid = bidIndex(callsMade[i])
+        --         if bidValue <= bid then
+        --             broadcastToColor(biddingPlayerName .. ", you must bid higher.", biddingPlayerColor, stringColorToRGB(biddingPlayerColor))
+        --             biddingPlayerColor = nil
+        --             biddingPlayerName = nil
+        --             currentBidValue = nil
+        --             callsUIHide()
+        --             return
+        --         end
+        --     end
+        --
+        -- -- The bid is valid. Store it.
+        -- broadcastToAll(biddingPlayerName .. " calls " .. currentBidValue .. ".", stringColorToRGB(biddingPlayerColor))
+        -- colorsBid[#colorsBid+1]=biddingPlayerColor
+        -- callsMade[#callsMade+1]=currentBidValue
+        -- biddingPlayerColor = nil
+        -- biddingPlayerName = nil
+        -- currentBidValue = nil
+        -- callsUIHide()
+        -- end
+    end
+end
+
+function checkCalls(player)
+    for v=1,1 do
+        pass=bidNames[v]
+    end
+    currentBid = bidnames[currentBidValue]
+    printToAll("currentBid = " .. currentBid)
+    if #colorsBid == 0 then
+        broadcastToAll(biddingPlayerName .. " calls " .. currentBid .. ".", stringColorToRGB(biddingPlayerColor))
+        colorsBid[#colorsBid+1]=biddingPlayerColor
+        callsMade[#callsMade+1]=currentBid
+        biddingPlayerColor = nil
+        biddingPlayerName = nil
+        currentBidValue = nil
+        currentBid = nil
+        callsUIHide()
+        return true
+    else
+        -- determine if player has already bid
+        found = false
+        for i=1,#colorsBid do
+             if biddingPlayerColor == colorsBid[i] then
+                 broadcastToColor(biddingPlayerName .. ", you have already recorded a bid.", biddingPlayerColor, stringColorToRGB(biddingPlayerColor))
+                 biddingPlayerColor = nil
+                 biddingPlayerName = nil
+                 currentBidValue = nil
+                 currentBid = nil
+                 callsUIHide()
+                 found = true
+                 return
+             end
+        end
+        if found ~= true then
+            -- player has not bid
+            -- if bid is a pass, add it to the bids
+            if currentBidValue == pass then
+                broadcastToAll(biddingPlayerName .. " calls " .. currentBid .. ".", stringColorToRGB(biddingPlayerColor))
+                colorsBid[#colorsBid+1]=biddingPlayerColor
+                callsMade[#callsMade+1]=currentBid
+                biddingPlayerColor = nil
+                biddingPlayerName = nil
+                currentBidValue = nil
+                currentBid = nil
+                callsUIHide()
+                return
+            end
+            -- otherwise, check if the bid is higher than all other bids
+            bidValue = bidIndex(currentBidValue)
+            for i=1,#callsMade do
+                bid = bidIndex(callsMade[i])
+                if bidValue <= bid then
+                    broadcastToColor(biddingPlayerName .. ", you must bid higher.", biddingPlayerColor, stringColorToRGB(biddingPlayerColor))
+                    biddingPlayerColor = nil
+                    biddingPlayerName = nil
+                    currentBidValue = nil
+                    currentBid = nil
+                    callsUIHide()
+                    return
+                end
+            end
+                    -- The bid is valid. Store it.
+        broadcastToAll(biddingPlayerName .. " calls " .. currentBid .. ".", stringColorToRGB(biddingPlayerColor))
+        colorsBid[#colorsBid+1]=biddingPlayerColor
+         callsMade[#callsMade+1]=currentBidValue
+        biddingPlayerColor = nil
+        biddingPlayerName = nil
+        currentBidValue = nil
+        currentBid = nil
+        callsUIHide()
+        end
+    end
+end
+
+function bidIndex(value)
+   for i=1,#bidNames,1 do
+       if value == bidNames[i] then
+          return i
+       end
+   end
+   return nil -- this case should not happen
+end
+
+function callsUISetAttribute(attribute, value)
+    UI.setAttribute("Froque", attribute, value)
+    UI.setAttribute("FroqueIs", attribute, value)
+    UI.setAttribute("Solo", attribute, value)
+    UI.setAttribute("SoloIs", attribute, value)
+    UI.setAttribute("Wedding", attribute, value)
+    UI.setAttribute("Bettle", attribute, value)
+    UI.setAttribute("SoloDu", attribute, value)
+end
+function callsUIShow(biddingPlayerColor)
+    UI.show("Calls", biddingPlayerColor)
+    UI.show("Froque", biddingPlayerColor)
+    UI.show("FroqueIs", biddingPlayerColor)
+    UI.show("Bettle", biddingPlayerColor)
+    UI.show("Wedding", biddingPlayerColor)
+    UI.show("Solo", biddingPlayerColor)
+    UI.show("SoloIs", biddingPlayerColor)
+    UI.show("SoloDu", biddingPlayerColor)
+    callsUIVisible = true
+end
+
+function callsUIHide(biddingPlayerColor)
+    UI.hide("Calls", biddingPlayerColor)
+    UI.hide("Froque", biddingPlayerColor)
+    UI.hide("FroqueIs", biddingPlayerColor)
+    UI.hide("Bettle", biddingPlayerColor)
+    UI.hide("Wedding", biddingPlayerColor)
+    UI.hide("Solo", biddingPlayerColor)
+    UI.hide("SoloIs", biddingPlayerColor)
+    UI.hide("SoloDu", biddingPlayerColor)
+    callsUIVisible = false
+end
+
+function makePassHotkeyEvent(playerColor)
+    makePassEvent(playerObjectFromColor(playerColor))
+end
+function makePassEvent(player)
+    if trickNumber == 0 then
+        broadcastToColor("Cannot pass or bid before dealing.", player.color, stringColorToRGB(player.color))
+        return
+    elseif trickNumber > 8 then
+       broadcastToColor("There have already been 8 tricks this hand.", biddingPlayerColor, stringColorToRGB(player.color))
+       return
+    else
+        biddingPlayerColor = player.color
+        biddingPlayerName = player.steam_name
+        currentBidValue = 1
+        UI.hide("Calls", biddingPlayerColor)
+        checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+    end
+    -- makeBidEvent(player, currentBidValue)
+end
+
+function makeFroqueHotkeyEvent(playerColor)
+   makeFroqueEvent(playerObjectFromColor(playerColor))
+end
+
+function makeFroqueEvent(player)
+    biddingPlayerColor = player.color
+    biddingPlayerName = player.steam_name
+    currentBidValue = 2
+    checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+end
+
+function makeFroqueIsHotkeyEvent(playerColor)
+    makeFroqueIsEvent(playerObjectFromColor(playerColor))
+end
+function makeFroqueIsEvent(player)
+    biddingPlayerColor = player.color
+    biddingPlayerName = player.steam_name
+    currentBidValue = 3
+    checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+end
+function makeBettleHotkeyEvent(playerColor)
+    makeBettleEvent(playerObjectFromColor(playerColor))
+end
+function makeBettleEvent(player)
+    biddingPlayerColor = player.color
+    biddingPlayerName = player.steam_name
+    currentBidValue = 4
+    checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+end
+
+function makeWeddingHotkeyEvent(playerColor)
+     makeWeddingEvent(playerObjectFromColor(playerColor))
+end
+
+function makeWeddingEvent(player)
+    biddingPlayerColor = player.color
+    biddingPlayerName = player.steam_name
+    currentBidValue = 5
+    checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+end
+function makeSoloHotkeyEvent(playerColor)
+    makeSoloEvent(playerObjectFromColor(playerColor))
+end
+
+function makeSoloEvent(player)
+    biddingPlayerColor = player.color
+    biddingPlayerName = player.steam_name
+    currentBidValue = 6
+    checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+end
+function makeSoloIsHotkeyEvent(playerColor)
+    makeSoloIsEvent(playerObjectFromColor(playerColor))
+end
+function makeSoloIsEvent(player)
+    biddingPlayerColor = player.color
+    biddingPlayerName = player.steam_name
+    currentBidValue = 7
+    checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+end
+function makeSoloDuHotkeyEvent(playerColor)
+    makeSoloDuEvent(playerObjectFromColor(playerColor))
+end
+function makeSoloDuEvent(player)
+    biddingPlayerColor = player.color
+    biddingPlayerName = player.steam_name
+    currentBidValue = 8
+    checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+end
+function callBid(player, currentBidValue)
+    printToAll("callBid function")
+    for i=1,#bidValues,currentBidValue do
+        printToAll(currentBidValue .. " before")
+        currentBidValue = bidValues[i]
+        printToAll(currentBidValue .. " after")
+    end
+    checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
+    --callsUIShow()
+    -- showTrumpSuit(player.color, bid)
+end
+
+-- function partnerUISetAttribute(attribute, value)
+--     UI.setAttribute("Ace", attribute, value)
+--     UI.setAttribute("King", attribute, value)
 -- end
--- function checkValid(player)
---     if #colorsBid == 0 then
---         -- broadcastToAll(biddingPlayerName .. " calls " .. currentBidValue .. ".", stringColorToRGB(biddingPlayerColor))
---         -- colorsBid[#colorsBid+1]=biddingPlayerColor
---         -- callsMade[#callsMade+1]=currentBidValue
---         -- biddingPlayerColor = nil
---         -- biddingPlayerName = nil
---         -- currentBidValue = nil
---         -- callsUIHide()
---         return true
---     else
---         -- determine if player has already bid
---         found = false
---         for i=1,#colorsBid do
---             if biddingPlayerColor == colorsBid[i] then
---                 broadcastToColor(biddingPlayerName .. ", you have already recorded a bid.", biddingPlayerColor, stringColorToRGB(biddingPlayerColor))
---                  -- biddingPlayerColor = nil
---                  -- biddingPlayerName = nil
---                  -- currentBidValue = nil
---                  -- callsUIHide()
---                 found = true
---                 return false
---             end
---         end
---         -- if found ~= true then
---             -- player has not bid
---             -- if bid is a pass, add it to the bids
---             -- if currentBidValue == pass then
---             --     broadcastToAll(biddingPlayerName .. " calls " .. currentBidValue .. ".", stringColorToRGB(biddingPlayerColor))
---             --     colorsBid[#colorsBid+1]=biddingPlayerColor
---             --     callsMade[#callsMade+1]=currentBidValue
---             --     biddingPlayerColor = nil
---             --     biddingPlayerName = nil
---             --     currentBidValue = nil
---             --     callsUIHide()
---             --     return
---             -- end
---             -- otherwise, check if the bid is higher than all other bids
---         --     bidValue = bidIndex(currentBidValue)
---         --     for i=1,#callsMade do
---         --         bid = bidIndex(callsMade[i])
---         --         if bidValue <= bid then
---         --             broadcastToColor(biddingPlayerName .. ", you must bid higher.", biddingPlayerColor, stringColorToRGB(biddingPlayerColor))
---         --             biddingPlayerColor = nil
---         --             biddingPlayerName = nil
---         --             currentBidValue = nil
---         --             callsUIHide()
---         --             return
---         --         end
---         --     end
---         --
---         -- -- The bid is valid. Store it.
---         -- broadcastToAll(biddingPlayerName .. " calls " .. currentBidValue .. ".", stringColorToRGB(biddingPlayerColor))
---         -- colorsBid[#colorsBid+1]=biddingPlayerColor
---         -- callsMade[#callsMade+1]=currentBidValue
---         -- biddingPlayerColor = nil
---         -- biddingPlayerName = nil
---         -- currentBidValue = nil
---         -- callsUIHide()
---         -- end
---     end
+-- function partnerUIShow()
+--     UI.show("Partner")
+--     partnerUIVisible = true
 -- end
---
--- function checkCalls(player)
---     for v=1,1 do
---         pass=bidNames[v]
---     end
---     currentBid = bidnames[currentBidValue]
---     printToAll("currentBid = " .. currentBid)
---     if #colorsBid == 0 then
---         broadcastToAll(biddingPlayerName .. " calls " .. currentBid .. ".", stringColorToRGB(biddingPlayerColor))
---         colorsBid[#colorsBid+1]=biddingPlayerColor
---         callsMade[#callsMade+1]=currentBid
---         biddingPlayerColor = nil
---         biddingPlayerName = nil
---         currentBidValue = nil
---         currentBid = nil
---         callsUIHide()
---         return true
---     else
---         -- determine if player has already bid
---         found = false
---         for i=1,#colorsBid do
---              if biddingPlayerColor == colorsBid[i] then
---                  broadcastToColor(biddingPlayerName .. ", you have already recorded a bid.", biddingPlayerColor, stringColorToRGB(biddingPlayerColor))
---                  biddingPlayerColor = nil
---                  biddingPlayerName = nil
---                  currentBidValue = nil
---                  currentBid = nil
---                  callsUIHide()
---                  found = true
---                  return
---              end
---         end
---         if found ~= true then
---             -- player has not bid
---             -- if bid is a pass, add it to the bids
---             if currentBidValue == pass then
---                 broadcastToAll(biddingPlayerName .. " calls " .. currentBid .. ".", stringColorToRGB(biddingPlayerColor))
---                 colorsBid[#colorsBid+1]=biddingPlayerColor
---                 callsMade[#callsMade+1]=currentBid
---                 biddingPlayerColor = nil
---                 biddingPlayerName = nil
---                 currentBidValue = nil
---                 currentBid = nil
---                 callsUIHide()
---                 return
---             end
---             -- otherwise, check if the bid is higher than all other bids
---             bidValue = bidIndex(currentBidValue)
---             for i=1,#callsMade do
---                 bid = bidIndex(callsMade[i])
---                 if bidValue <= bid then
---                     broadcastToColor(biddingPlayerName .. ", you must bid higher.", biddingPlayerColor, stringColorToRGB(biddingPlayerColor))
---                     biddingPlayerColor = nil
---                     biddingPlayerName = nil
---                     currentBidValue = nil
---                     currentBid = nil
---                     callsUIHide()
---                     return
---                 end
---             end
---
---         -- The bid is valid. Store it.
---         broadcastToAll(biddingPlayerName .. " calls " .. currentBid .. ".", stringColorToRGB(biddingPlayerColor))
---         colorsBid[#colorsBid+1]=biddingPlayerColor
---         callsMade[#callsMade+1]=currentBidValue
---         biddingPlayerColor = nil
---         biddingPlayerName = nil
---         currentBidValue = nil
---         currentBid = nil
---         callsUIHide()
---         end
---     end
+-- function partnerUIHide()
+--     UI.hide("Partner")
+--     partnerUIVisible = false
 -- end
---
--- function bidIndex(value)
---    for i=1,#bidNames,1 do
---        if value == bidNames[i] then
---           return i
---        end
---    end
---    return nil -- this case should not happen
--- end
---
--- function callsUISetAttribute(attribute, value)
---     UI.setAttribute("Froque", attribute, value)
---     UI.setAttribute("FroqueIs", attribute, value)
---     UI.setAttribute("Solo", attribute, value)
---     UI.setAttribute("SoloIs", attribute, value)
---     UI.setAttribute("Wedding", attribute, value)
---     UI.setAttribute("Bettle", attribute, value)
---     UI.setAttribute("SoloDu", attribute, value)
--- end
--- function callsUIShow(biddingPlayerColor)
---     UI.show("Calls", biddingPlayerColor)
---     UI.show("Froque", biddingPlayerColor)
---     UI.show("FroqueIs", biddingPlayerColor)
---     UI.show("Bettle", biddingPlayerColor)
---     UI.show("Wedding", biddingPlayerColor)
---     UI.show("Solo", biddingPlayerColor)
---     UI.show("SoloIs", biddingPlayerColor)
---     UI.show("SoloDu", biddingPlayerColor)
---     callsUIVisible = true
--- end
--- function callsUIHide(biddingPlayerColor)
---     UI.hide("Calls", biddingPlayerColor)
---     UI.hide("Froque", biddingPlayerColor)
---     UI.hide("FroqueIs", biddingPlayerColor)
---     UI.hide("Bettle", biddingPlayerColor)
---     UI.hide("Wedding", biddingPlayerColor)
---     UI.hide("Solo", biddingPlayerColor)
---     UI.hide("SoloIs", biddingPlayerColor)
---     UI.hide("SoloDu", biddingPlayerColor)
---     callsUIVisible = false
--- end
---
--- function makePassHotkeyEvent(playerColor)
---     makePassEvent(playerObjectFromColor(playerColor))
--- end
--- function makePassEvent(player)
---     if trickNumber == 0 then
---         broadcastToColor("Cannot pass or bid before dealing.", player.color, stringColorToRGB(player.color))
---         return
---     elseif trickNumber > 8 then
---         broadcastToColor("There have already been 8 tricks this hand.", biddingPlayerColor, stringColorToRGB(player.color))
---         return
---     else
---         biddingPlayerColor = player.color
---         biddingPlayerName = player.steam_name
---         currentBidValue = 1
---         UI.hide("Calls", biddingPlayerColor)
---         checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
---     end
---     -- makeBidEvent(player, currentBidValue)
--- end
--- function makeFroqueHotkeyEvent(playerColor)
---     makeFroqueEvent(playerObjectFromColor(playerColor))
--- end
--- function makeFroqueEvent(player)
---     biddingPlayerColor = player.color
---     biddingPlayerName = player.steam_name
---     currentBidValue = 2
---     checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
--- end
--- function makeFroqueIsHotkeyEvent(playerColor)
---     makeFroqueIsEvent(playerObjectFromColor(playerColor))
--- end
--- function makeFroqueIsEvent(player)
---     biddingPlayerColor = player.color
---     biddingPlayerName = player.steam_name
---     currentBidValue = 3
---     checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
--- end
--- function makeBettleHotkeyEvent(playerColor)
---     makeBettleEvent(playerObjectFromColor(playerColor))
--- end
--- function makeBettleEvent(player)
---     biddingPlayerColor = player.color
---     biddingPlayerName = player.steam_name
---     currentBidValue = 4
---     checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
--- end
--- function makeWeddingHotkeyEvent(playerColor)
---     makeWeddingEvent(playerObjectFromColor(playerColor))
--- end
--- function makeWeddingEvent(player)
---     biddingPlayerColor = player.color
---     biddingPlayerName = player.steam_name
---     currentBidValue = 5
---     checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
--- end
--- function makeSoloHotkeyEvent(playerColor)
---     makeSoloEvent(playerObjectFromColor(playerColor))
--- end
--- function makeSoloEvent(player)
---     biddingPlayerColor = player.color
---     biddingPlayerName = player.steam_name
---     currentBidValue = 6
---     checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
--- end
--- function makeSoloIsHotkeyEvent(playerColor)
---     makeSoloIsEvent(playerObjectFromColor(playerColor))
--- end
--- function makeSoloIsEvent(player)
---     biddingPlayerColor = player.color
---     biddingPlayerName = player.steam_name
---     currentBidValue = 7
---     checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
--- end
--- function makeSoloDuHotkeyEvent(playerColor)
---     makeSoloDuEvent(playerObjectFromColor(playerColor))
--- end
--- function makeSoloDuEvent(player)
---     biddingPlayerColor = player.color
---     biddingPlayerName = player.steam_name
---     currentBidValue = 8
---     checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
--- end
--- function callBid(player, currentBidValue)
---     printToAll("callBid function")
---     for i=1,#bidValues,currentBidValue do
---         printToAll(currentBidValue .. " before")
---         currentBidValue = bidValues[i]
---         printToAll(currentBidValue .. " after")
---     end
---     checkCalls(biddingPlayerColor, biddingPlayerName, currentBidValue)
---     --callsUIShow()
---     -- showTrumpSuit(player.color, bid)
--- end
---
--- -- function partnerUISetAttribute(attribute, value)
--- --     UI.setAttribute("Ace", attribute, value)
--- --     UI.setAttribute("King", attribute, value)
--- -- end
--- -- function partnerUIShow()
--- --     UI.show("Partner")
--- --     partnerUIVisible = true
--- -- end
--- -- function partnerUIHide()
--- --     UI.hide("Partner")
--- --     partnerUIVisible = false
--- -- end
---
--- function callSuit(player, suit)
---     broadcastToAll(player.steam_name .. " calls " .. suit .. ".", stringColorToRGB(player.color))
---     suitsUIHide()
---     showTrumpSuit(player.color, suit)
--- end
--- function callSpadesHotkeyEvent(playerColor)
---     callSpadesEvent(playerObjectFromColor(playerColor))
--- end
--- function callHeartsHotkeyEvent(playerColor)
---     callHeartsEvent(playerObjectFromColor(playerColor))
--- end
--- function callDiamondsHotkeyEvent(playerColor)
---     callDiamondsEvent(playerObjectFromColor(playerColor))
--- end
--- function callClubsHotkeyEvent(playerColor)
---     callClubsEvent(playerObjectFromColor(playerColor))
--- end
---
--- function callSpadesEvent(player)
---     if suitsUIVisible == false then return end
---     if biddingPlayerColor ~= player.color then return end
---     callSuit(player, "Spades")
--- end
--- function callHeartsEvent(player)
---     if suitsUIVisible == false then return end
---     if biddingPlayerColor ~= player.color then return end
---     callSuit(player, "Hearts")
--- end
--- function callDiamondsEvent(player)
---     if suitsUIVisible == false then return end
---     if biddingPlayerColor ~= player.color then return end
---     callSuit(player, "Diamonds")
--- end
--- function callClubsEvent(player)
---     if suitsUIVisible == false then return end
---     if biddingPlayerColor ~= player.color then return end
---     callSuit(player, "Clubs")
--- end
---
--- function showTrumpSuit(playerColor, suit)
---     -- local buttonColor = colorTableToRGBAString(stringColorToRGB(playerColor))
---     -- UI.setAttribute("TrumpSuit", "colors", buttonColor.."|"..buttonColor.."|"..buttonColor)
---     -- UI.setAttribute("TrumpSuitImage", "image", suit)
---     -- if suit == "heart" or suit == "diamond" then
---     --     UI.setAttribute("TrumpSuitImage", "outline", "#000000FF")
---     -- else
---     --     UI.setAttribute("TrumpSuitImage", "outline", "#00000000")
---     -- end
---     -- UI.show("TrumpSuit")
---     printToAll(showTrumpSuit)
--- end
--- function suitsUISetAttribute(attribute, value)
---     UI.setAttribute("CallSpades", attribute, value)
---     UI.setAttribute("CallHearts", attribute, value)
---     UI.setAttribute("CallDiamonds", attribute, value)
---     UI.setAttribute("CallClubs", attribute, value)
--- end
--- function suitsUIShow()
---     UI.show("CallSpades")
---     UI.show("CallHearts")
---     UI.show("CallDiamonds")
---     UI.show("CallClubs")
---     suitsUIVisible = true
--- end
--- function suitsUIHide()
---     UI.hide("CallSpades")
---     UI.hide("CallHearts")
---     UI.hide("CallDiamonds")
---     UI.hide("CallClubs")
---     suitsUIVisible = false
--- end
---
--- function addScoreEvent(zone)
---     printToAll("addscore")
--- end
---
--- -- function getHandLocation(color)
--- --     if color == "Green" then
--- --         return handLocations_REF.green
--- --     elseif color == "Blue" then
--- --         return handLocations_REF.blue
--- --     elseif color == "Purple" then
--- --         return handLocations_REF.purple
--- --     elseif color == "White" then
--- --         return handLocations_REF.white
--- --     elseif color == "Red" then
--- --         return handLocations_REF.red
--- --     elseif color == "Orange" then
--- --         return handLocations_REF.orange
--- --     end
--- -- end
--- --
--- -- function getColorValueFromPlayer(player_color)
--- --     if player_color == "Green" then
--- --         return {0.129,0.701,0.168}
--- --     elseif player_color == "Blue" then
--- --         return {0.118, 0.53, 1}
--- --     elseif player_color == "Purple" then
--- --         return {0.627, 0.125, 0.941}
--- --     elseif player_color == "White" then
--- --         return {1, 1, 1}
--- --     elseif player_color == "Red" then
--- --         return {0.856, 0.1, 0.094}
--- --     elseif player_color == "Orange" then
--- --         return {0.956, 0.392, 0.113}
--- --     end
--- -- end
---
--- function hideButtons()
---     UI.setAttribute("Pass", "visibility", "Black")
---     UI.setAttribute("Bid", "visibility", "Black")
---     UI.setAttribute("TakeTrick", "visibility", "Black")
--- end
+
+function callSuit(player, suit)
+    broadcastToAll(player.steam_name .. " calls " .. suit .. ".", stringColorToRGB(player.color))
+    suitsUIHide()
+    showTrumpSuit(player.color, suit)
+end
+function callSpadesHotkeyEvent(playerColor)
+    callSpadesEvent(playerObjectFromColor(playerColor))
+end
+function callHeartsHotkeyEvent(playerColor)
+    callHeartsEvent(playerObjectFromColor(playerColor))
+end
+function callDiamondsHotkeyEvent(playerColor)
+    callDiamondsEvent(playerObjectFromColor(playerColor))
+end
+function callClubsHotkeyEvent(playerColor)
+    callClubsEvent(playerObjectFromColor(playerColor))
+end
+
+function callSpadesEvent(player)
+     if suitsUIVisible == false then return end
+     if biddingPlayerColor ~= player.color then return end
+     callSuit(player, "Spades")
+end
+function callHeartsEvent(player)
+     if suitsUIVisible == false then return end
+     if biddingPlayerColor ~= player.color then return end
+     callSuit(player, "Hearts")
+end
+function callDiamondsEvent(player)
+     if suitsUIVisible == false then return end
+     if biddingPlayerColor ~= player.color then return end
+     callSuit(player, "Diamonds")
+end
+function callClubsEvent(player)
+     if suitsUIVisible == false then return end
+     if biddingPlayerColor ~= player.color then return end
+     callSuit(player, "Clubs")
+end
+
+function showTrumpSuit(playerColor, suit)
+     -- local buttonColor = colorTableToRGBAString(stringColorToRGB(playerColor))
+     -- UI.setAttribute("TrumpSuit", "colors", buttonColor.."|"..buttonColor.."|"..buttonColor)
+     -- UI.setAttribute("TrumpSuitImage", "image", suit)
+     -- if suit == "heart" or suit == "diamond" then
+     --     UI.setAttribute("TrumpSuitImage", "outline", "#000000FF")
+     -- else
+     --     UI.setAttribute("TrumpSuitImage", "outline", "#00000000")
+     -- end
+     -- UI.show("TrumpSuit")
+     printToAll(showTrumpSuit)
+end
+function suitsUISetAttribute(attribute, value)
+     UI.setAttribute("CallSpades", attribute, value)
+     UI.setAttribute("CallHearts", attribute, value)
+     UI.setAttribute("CallDiamonds", attribute, value)
+     UI.setAttribute("CallClubs", attribute, value)
+end
+function suitsUIShow()
+     UI.show("CallSpades")
+     UI.show("CallHearts")
+     UI.show("CallDiamonds")
+     UI.show("CallClubs")
+     suitsUIVisible = true
+end
+function suitsUIHide()
+     UI.hide("CallSpades")
+     UI.hide("CallHearts")
+     UI.hide("CallDiamonds")
+     UI.hide("CallClubs")
+     suitsUIVisible = false
+end
+
+function addScoreEvent(zone)
+     printToAll("addscore")
+end
+
+function getHandLocation(color)
+     if color == "Green" then
+         return handLocations_REF.green
+     elseif color == "Blue" then
+         return handLocations_REF.blue
+     elseif color == "Purple" then
+         return handLocations_REF.purple
+     elseif color == "White" then
+         return handLocations_REF.white
+     elseif color == "Red" then
+         return handLocations_REF.red
+     elseif color == "Orange" then
+         return handLocations_REF.orange
+     end
+end
+
+function getColorValueFromPlayer(player_color)
+     if player_color == "Green" then
+         return {0.129,0.701,0.168}
+     elseif player_color == "Blue" then
+         return {0.118, 0.53, 1}
+     elseif player_color == "Purple" then
+         return {0.627, 0.125, 0.941}
+     elseif player_color == "White" then
+         return {1, 1, 1}
+     elseif player_color == "Red" then
+         return {0.856, 0.1, 0.094}
+     elseif player_color == "Orange" then
+         return {0.956, 0.392, 0.113}
+     end
+end
+
+function hideButtons()
+     UI.setAttribute("Pass", "visibility", "Black")
+     UI.setAttribute("Bid", "visibility", "Black")
+     UI.setAttribute("TakeTrick", "visibility", "Black")
+end
 
 function checkHand(player)
     local playerColor = player.color
