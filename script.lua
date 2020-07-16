@@ -236,6 +236,8 @@ function gatherAndDealEvent(player)
     end
 end
 
+
+
 function gatherAndDeal()
     biddingPlayerNumber = 0
     biddingPlayerColor = nil
@@ -269,9 +271,11 @@ function gatherAndDeal()
 
     wait(0.25)
     deck =group(tableZone.getObjects())
+    wait(0.25)
     testing("cards grouped")
     --deck = nil
     deck = getDeck(tableZone)
+    wait(0.25)
     if deck == nil then
       broadcastToAll("An error occurred. Deal again.")
       dealingPlayer = nil
@@ -329,7 +333,6 @@ function sweepCards(zone)
           looseCards[#looseCards+1] = obj
       end
   end
-  wait(1)
   testing("Sweeping cards complete")
   return looseCards
 end
@@ -359,7 +362,7 @@ end
 
 function takeTrick()
     local playerColor = trickTakingPlayer.color
-    -- looseCards = sweepCards(tableCenterZone)
+    looseCards = sweepCards(tableCenterZone)
     broadcastToAll(trickTakingPlayer.steam_name .. " takes the trick.", stringColorToRGB(trickTakingPlayer.color))
     group(looseCards)
     wait(0.5)
